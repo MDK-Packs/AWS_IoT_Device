@@ -72,7 +72,7 @@ cp -vr $CONTRIB_ADD/* $PACK_BUILD/
 cp -vrf $CONTRIB_MERGE/* $PACK_BUILD/
 
 # Run Pack Check and generate PackName file
-$UTILITIES_DIR/$UTILITIES_OS/PackChk.exe $PACK_BUILD/$PACK_VENDOR.$PACK_NAME.pdsc -n PackName.txt
+$UTILITIES_DIR/$UTILITIES_OS/PackChk.exe $PACK_BUILD/$PACK_VENDOR.$PACK_NAME.pdsc -n PackName.txt -x M362 -x M382
 errorlevel=$?
 
 if [ $errorlevel -ne 0 ]; then
