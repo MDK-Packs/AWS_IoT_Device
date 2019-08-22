@@ -197,7 +197,7 @@
 #define MBEDTLS_ENTROPY_MAX_SOURCES        2 /**< Maximum number of sources supported */
 
 /* SSL options */
-#define MBEDTLS_SSL_MAX_CONTENT_LEN     5000 /**< Maxium fragment length in bytes, determines the size of each of the two internal I/O buffers */
+#define MBEDTLS_SSL_MAX_CONTENT_LEN     8000 /**< Maxium fragment length in bytes, determines the size of each of the two internal I/O buffers */
 
 #include "mbedtls/check_config.h"
 

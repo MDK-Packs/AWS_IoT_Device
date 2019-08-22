@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title>Getting started with AWS IoT and MDK</title>
+  <title>Getting started with AWS Cloud Connector and MDK – </title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">/*! jQuery UI - v1.10.3 - 2013-05-03
   * http://jqueryui.com
@@ -1197,7 +1197,7 @@
 <p>This tutorial explains how to use <strong>MDK</strong> and the <strong>AWS_IoT_Device</strong> pack to connect your application to the AWS IoT Cloud.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <p>You require a development board with a device that is supported by <a href="http://arm-software.github.io/CMSIS_5/Driver/html/index.html">CMSIS-Drivers</a>. Lots of devices from STMicroelectronics and NXP do have these drivers available. Please consult the <a href="https://www.keil.com/dd2">device database</a> for a list of devices and development boards.</p>
-<p>When you have chosen your device and development board, use <img src=".\static\icons\packinst.png" alt="Pack Installer" /><a href="https://www.keil.com/support/man/docs/uv4/uv4_ca_packinstaller.htm">Pack Installer</a> to download and install the following software packs:</p>
+<p>When you have chosen your device and development board, use <img src="./static/icons/packinst.png" alt="Pack Installer" /><a href="https://www.keil.com/support/man/docs/uv4/uv4_ca_packinstaller.htm">Pack Installer</a> to download and install the following software packs:</p>
 <ul>
 <li><strong>MDK-Packs::AWS_IoT_Device</strong></li>
 <li><strong>ARM::CMSIS</strong> v5.0.1 or newer</li>
@@ -1241,7 +1241,7 @@
 <h3 id="create-project-and-select-software-components">Create project and select software components</h3>
 <ol style="list-style-type: decimal">
 <li>Create a new project. Select the device that you are using on your development board.</li>
-<li>The <img src=".\static\icons\rte.png" alt="Manage RTE" /> Manage Run-Time Environment window opens. Select the following software components:
+<li>The <img src="./static/icons/rte.png" alt="Manage RTE" /> Manage Run-Time Environment window opens. Select the following software components:
 <ul>
 <li><strong>IoT Client:AWS</strong></li>
 <li><strong>CMSIS:RTOS2:Keil RTX5</strong></li>
@@ -1277,11 +1277,11 @@ Optional (for <code>printf</code> debug output on the console):
 <li>If you are using the software components described above, you do not need to configure the Network component. The default settings will work. If you do not have DHCP available in your network, please refer to the <a href="http://www.keil.com/pack/doc/mw/Network/html/index.html">MDK-Middleware documentation</a> on how to set a static IP address.</li>
 <li>Configure RTX5: <strong>CMSIS:RTX_Config.h</strong>
 <ul>
-<li>If you are using one of the provided templates (see below), you need to set the <strong>System - Global Dynamic Memory size</strong> to at least 10240:<br> <img src=".\static\images\rtx_config_h.png" alt="RTX_Config.h" /><br> This large amount of dynamic memory is not required for custom projects.</li>
+<li>If you are using one of the provided templates (see below), you need to set the <strong>System - Global Dynamic Memory size</strong> to at least 10240:<br> <img src="./static/images/rtx_config_h.png" alt="RTX_Config.h" /><br> This large amount of dynamic memory is not required for custom projects.</li>
 </ul></li>
 <li>Configure Heap: <strong>startup_&lt;device&gt;.s</strong>
 <ul>
-<li>Configure at least 48 KB (0xC000) of heap memory.<br> <img src=".\static\images\heap.png" alt="Heap" /><br> This is required for the mbed TLS certificates.</li>
+<li>Configure at least 48 KB (0xC000) of heap memory.<br> <img src="./static/images/heap.png" alt="Heap" /><br> This is required for the mbed TLS certificates.</li>
 </ul></li>
 <li>Configure device specific hardware:
 <ul>
@@ -1296,16 +1296,16 @@ Optional (for <code>printf</code> debug output on the console):
 <li>Add <strong>IoT Client:AWS:Subscribe and Publish</strong> or</li>
 <li>Add <strong>IoT Client:AWS:Shadow</strong> or</li>
 <li>Add <strong>IoT Client:AWS:Shadow (console echo)</strong> or</li>
-<li>Add <strong>IoT Client:AWS:Jobs</strong><br> <img src=".\static\images\uct.png" alt="Heap" /><br></li>
+<li>Add <strong>IoT Client:AWS:Jobs</strong><br> <img src="./static/images/uct.png" alt="Heap" /><br></li>
 </ul></li>
 <li>Add <strong>CMSIS:RTOS2:Keil RTX5:main</strong> and update:
 <ul>
 <li>Add an attribute for an increased stack size for the application thread. Each of the samples require a thread stack size of 8 KB:<br> <code>const osThreadAttr_t app_main_attr = { .stack_size = 8192U };</code></li>
 <li>Change application thread creation (include the attribute defined above):<br> <code>osThreadNew(app_main, NULL, &amp;app_main_attr);</code></li>
 <li>Add an include for the Network library (beginning of file):<br> <code>#include &quot;rl_net.h&quot;</code></li>
-<li>Add a prototype for the selected example’s top level function (only one):<br> <code>extern int subscribe_publish (void);</code><br> <code>extern int shadow (void);</code><br>  <code>extern int shadow_console_echo (void);</code><br> <code>extern int jobs (void);</code></li>
+<li>Add a prototype for the selected example’s top level function (only one):<br> <code>extern int subscribe_publish (void);</code><br> <code>extern int shadow (void);</code><br> <code>extern int shadow_console_echo (void);</code><br> <code>extern int jobs (void);</code></li>
 <li>Add Network initialization in the <code>app_main</code> function:<br> <code>uint32_t addr;</code><br> <code>netInitialize();</code><br> <code>do {</code><br>   <code>osDelay(500U);</code><br>   <code>netIF_GetOption(NET_IF_CLASS_ETH | 0, netIF_OptionIP4_Address, (uint8_t *)&amp;addr, sizeof (addr));</code><br> <code>} while (addr == 0U);</code></li>
-<li>Add a call to the selected example’s top level function into the <code>app_main</code> function after Network initialization (only one):<br> <code>subscribe_publish();</code><br> <code>shadow();</code><br> <code>shadow_console_echo();</code><br> <code>jobs();</code></li>
+<li>Add a call to the selected example’s top level function into the <code>app_main</code> after Network initialization (only one):<br> <code>subscribe_publish();</code><br> <code>shadow();</code><br> <code>shadow_console_echo();</code><br> <code>jobs();</code></li>
 </ul></li>
 <li>AWS Certificates:
 <ul>
@@ -1315,25 +1315,25 @@ Optional (for <code>printf</code> debug output on the console):
 <h3 id="adding-your-certificates">Adding your certificates</h3>
 <p>Previously, you have saved the certificates and keys for your thing that you have added to your AWS IoT console. You need to paste the content of these files into <code>aws_certificates.c</code> and then edit it.</p>
 <ol style="list-style-type: decimal">
-<li>Copy the following into the section beginning with<br> <code>const char AWS_RootCA[] =</code><br> <code>&quot;-----BEGIN CERTIFICATE-----\n&quot;</code><br> <code>&quot;MIIE0zCCA7ugAwIBAgIQGNrRniZ96LtKIVjNzGs7SjANBgkqhkiG9w0BAQUFADCB\n&quot;</code><br> <code>&quot;yjELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQL\n&quot;</code><br> <code>&quot;ExZWZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTowOAYDVQQLEzEoYykgMjAwNiBWZXJp\n&quot;</code><br> <code>&quot;U2lnbiwgSW5jLiAtIEZvciBhdXRob3JpemVkIHVzZSBvbmx5MUUwQwYDVQQDEzxW\n&quot;</code><br> <code>&quot;ZXJpU2lnbiBDbGFzcyAzIFB1YmxpYyBQcmltYXJ5IENlcnRpZmljYXRpb24gQXV0\n&quot;</code><br> <code>&quot;aG9yaXR5IC0gRzUwHhcNMDYxMTA4MDAwMDAwWhcNMzYwNzE2MjM1OTU5WjCByjEL\n&quot;</code><br> <code>&quot;MAkGA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMR8wHQYDVQQLExZW\n&quot;</code><br> <code>&quot;ZXJpU2lnbiBUcnVzdCBOZXR3b3JrMTowOAYDVQQLEzEoYykgMjAwNiBWZXJpU2ln\n&quot;</code><br> <code>&quot;biwgSW5jLiAtIEZvciBhdXRob3JpemVkIHVzZSBvbmx5MUUwQwYDVQQDEzxWZXJp\n&quot;</code><br> <code>&quot;U2lnbiBDbGFzcyAzIFB1YmxpYyBQcmltYXJ5IENlcnRpZmljYXRpb24gQXV0aG9y\n&quot;</code><br> <code>&quot;aXR5IC0gRzUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvJAgIKXo1\n&quot;</code><br> <code>&quot;nmAMqudLO07cfLw8RRy7K+D+KQL5VwijZIUVJ/XxrcgxiV0i6CqqpkKzj/i5Vbex\n&quot;</code><br> <code>&quot;t0uz/o9+B1fs70PbZmIVYc9gDaTY3vjgw2IIPVQT60nKWVSFJuUrjxuf6/WhkcIz\n&quot;</code><br> <code>&quot;SdhDY2pSS9KP6HBRTdGJaXvHcPaz3BJ023tdS1bTlr8Vd6Gw9KIl8q8ckmcY5fQG\n&quot;</code><br> <code>&quot;BO+QueQA5N06tRn/Arr0PO7gi+s3i+z016zy9vA9r911kTMZHRxAy3QkGSGT2RT+\n&quot;</code><br> <code>&quot;rCpSx4/VBEnkjWNHiDxpg8v+R70rfk/Fla4OndTRQ8Bnc+MUCH7lP59zuDMKz10/\n&quot;</code><br> <code>&quot;NIeWiu5T6CUVAgMBAAGjgbIwga8wDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8E\n&quot;</code><br> <code>&quot;BAMCAQYwbQYIKwYBBQUHAQwEYTBfoV2gWzBZMFcwVRYJaW1hZ2UvZ2lmMCEwHzAH\n&quot;</code><br> <code>&quot;BgUrDgMCGgQUj+XTGoasjY5rw8+AatRIGCx7GS4wJRYjaHR0cDovL2xvZ28udmVy\n&quot;</code><br> <code>&quot;aXNpZ24uY29tL3ZzbG9nby5naWYwHQYDVR0OBBYEFH/TZafC3ey78DAJ80M5+gKv\n&quot;</code><br> <code>&quot;MzEzMA0GCSqGSIb3DQEBBQUAA4IBAQCTJEowX2LP2BqYLz3q3JktvXf2pXkiOOzE\n&quot;</code><br> <code>&quot;p6B4Eq1iDkVwZMXnl2YtmAl+X6/WzChl8gGqCBpH3vn5fJJaCGkgDdk+bW48DW7Y\n&quot;</code><br> <code>&quot;5gaRQBi5+MHt39tBquCWIMnNZBU4gcmU7qKEKQsTb47bDN0lAtukixlE0kF6BWlK\n&quot;</code><br> <code>&quot;WE9gyn6CagsCqiUXObXbf+eEZSqVir2G3l6BFoMtEMze/aiCKm0oHw0LxOXnGiYZ\n&quot;</code><br> <code>&quot;4fQRbxC1lfznQgUy286dUV4otp6F01vvpX1FQHKOtw5rDgb7MzVIcbidJ4vEZV8N\n&quot;</code><br> <code>&quot;hnacRHr2lVz2XTIIM6RUthg/aFzyQkqFOFSDX9HoLPKsEdao7WNq\n&quot;</code><br> <code>&quot;-----END CERTIFICATE-----\n&quot;;</code><br></li>
+<li>Copy the following into the section beginning with<br> <code>const char AWS_RootCA[] =</code><br> <code>&quot;-----BEGIN CERTIFICATE-----\n&quot;</code><br> <code>&quot;MIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\n&quot;</code><br> <code>&quot;ADA5MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQQDExBBbWF6\n&quot;</code><br> <code>&quot;b24gUm9vdCBDQSAxMB4XDTE1MDUyNjAwMDAwMFoXDTM4MDExNzAwMDAwMFowOTEL\n&quot;</code><br> <code>&quot;MAkGA1UEBhMCVVMxDzANBgNVBAoTBkFtYXpvbjEZMBcGA1UEAxMQQW1hem9uIFJv\n&quot;</code><br> <code>&quot;b3QgQ0EgMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJ4gHHKeNXj\n&quot;</code><br> <code>&quot;ca9HgFB0fW7Y14h29Jlo91ghYPl0hAEvrAIthtOgQ3pOsqTQNroBvo3bSMgHFzZM\n&quot;</code><br> <code>&quot;9O6II8c+6zf1tRn4SWiw3te5djgdYZ6k/oI2peVKVuRF4fn9tBb6dNqcmzU5L/qw\n&quot;</code><br> <code>&quot;IFAGbHrQgLKm+a/sRxmPUDgH3KKHOVj4utWp+UhnMJbulHheb4mjUcAwhmahRWa6\n&quot;</code><br> <code>&quot;VOujw5H5SNz/0egwLX0tdHA114gk957EWW67c4cX8jJGKLhD+rcdqsq08p8kDi1L\n&quot;</code><br> <code>&quot;93FcXmn/6pUCyziKrlA4b9v7LWIbxcceVOF34GfID5yHI9Y/QCB/IIDEgEw+OyQm\n&quot;</code><br> <code>&quot;jgSubJrIqg0CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n&quot;</code><br> <code>&quot;AYYwHQYDVR0OBBYEFIQYzIU07LwMlJQuCFmcx7IQTgoIMA0GCSqGSIb3DQEBCwUA\n&quot;</code><br> <code>&quot;A4IBAQCY8jdaQZChGsV2USggNiMOruYou6r4lK5IpDB/G/wkjUu0yKGX9rbxenDI\n&quot;</code><br> <code>&quot;U5PMCCjjmCXPI6T53iHTfIUJrU6adTrCC2qJeHZERxhlbI1Bjjt/msv0tadQ1wUs\n&quot;</code><br> <code>&quot;N+gDS63pYaACbvXy8MWy7Vu33PqUXHeeE6V/Uq2V8viTO96LXFvKWlJbYK8U90vv\n&quot;</code><br> <code>&quot;o/ufQJVtMVT8QtPHRh8jrdkPSHCa2XV4cdFyQzR1bldZwgJcJmApzyMZFo6IQ6XU\n&quot;</code><br> <code>&quot;5MsI+yMRQ+hDKXJioaldXgjUkK642M4UwtBV8ob2xJNDd2ZhwLnoQdeXeGADbkpy\n&quot;</code><br> <code>&quot;rqXRfboQnoZsG4q5WTP468SQvvG5\n&quot;</code><br> <code>&quot;-----END CERTIFICATE-----\n&quot;;</code><br></li>
 <li>Open the file <code>&lt;ID&gt;-certificate.pem.crt</code> in a text editor. Edit the certificate by adding a leading <code>&quot;</code> and a trailing <code>\n&quot;</code> to each line. Then, copy the content into the section beginning with <code>const char AWS_ClientCert[] =</code><br></li>
 <li>Open the file <code>&lt;ID&gt;-private.pem.key</code> in a text editor. Edit the certificate by adding a leading <code>&quot;</code> and a trailing <code>\n&quot;</code> to each line. Then, copy the content into the section beginning with <code>const char AWS_ClientPrivateKey[] =</code><br></li>
 </ol>
 <h3 id="optional-configure-debug">Optional: Configure debug</h3>
 <p>The AWS sample code is prepared to output <code>printf</code> statements for debugging purposes. To show these effectively, you can use the software component <strong>Compiler:I/O:STDOUT:ITM</strong> to show the messages in the <a href="http://www.keil.com/support/man/docs/uv4/uv4_db_dbg_serialwin.htm">Debug printf</a> window. To enable this output, do the following:</p>
 <ol style="list-style-type: decimal">
-<li>Open the <img src=".\static\icons\oft.png" alt="Options for target" /> Options for target dialog (<strong>Alt+F7</strong>).</li>
+<li>Open the <img src="./static/icons/oft.png" alt="Options for target" /> Options for target dialog (<strong>Alt+F7</strong>).</li>
 <li>Go to the <strong>C/C++</strong> tab and configure debug messages by adding the following global defines to the C pre-processor:<br> <code>ENABLE_IOT_INFO</code> <code>ENABLE_IOT_WARN</code> <code>ENABLE_IOT_ERROR</code><br></li>
 <li>Go to the <strong>Debug</strong> tab. Select the debug adapter that is connected to your target and configure these <strong>Settings</strong>:
 <ul>
 <li><strong>Debug</strong> tab: Set <strong>Port</strong> to <strong>SW</strong>.</li>
-<li><strong>Trace</strong> tab: Set the <strong>Core Clock</strong> to the system clock of your target, Select <strong>Trace Enable</strong> and set make sure that <strong>ITM Stimulus Port 0</strong> is enabled:<br> <img src=".\static\images\debug_setup.png" alt="Debug Setup" /></li>
+<li><strong>Trace</strong> tab: Set the <strong>Core Clock</strong> to the system clock of your target, Select <strong>Trace Enable</strong> and set make sure that <strong>ITM Stimulus Port 0</strong> is enabled:<br> <img src="./static/images/debug_setup.png" alt="Debug Setup" /></li>
 </ul></li>
 </ol>
 <h3 id="rundebug-the-application">Run/debug the application</h3>
 <ol style="list-style-type: decimal">
-<li><img src=".\static\icons\build.png" alt="Build target" /> Build the application (<strong>F7</strong>) and <img src=".\static\icons\Flash.png" alt="Download to target" /> download (<strong>F8</strong>) to target.</li>
-<li><p>Enter <img src=".\static\icons\debug.png" alt="Start/Stop Debug Session" /> debug (<strong>CTRL+F5</strong>) and <img src=".\static\icons\run.png" alt="Run" /> run (<strong>F5</strong>) the application on the target and monitor the console output via <img src=".\static\icons\uart_window.png" alt="Debug (printf) Viewer" /> <strong>Serial Window - Debug (printf) Viewer</strong>. You should see something similar:</p>
+<li><img src="./static/icons/build.png" alt="Build target" /> Build the application (<strong>F7</strong>) and <img src="./static/icons/Flash.png" alt="Download to target" /> download (<strong>F8</strong>) to target.</li>
+<li><p>Enter <img src="./static/icons/debug.png" alt="Start/Stop Debug Session" /> debug (<strong>CTRL+F5</strong>) and <img src="./static/icons/run.png" alt="Run" /> run (<strong>F5</strong>) the application on the target and monitor the console output via <img src="./static/icons/uart_window.png" alt="Debug (printf) Viewer" /> <strong>Serial Window - Debug (printf) Viewer</strong>. You should see something similar:</p>
 <pre><code>AWS IoT SDK Version 2.2.1-
 
 Connecting...
