@@ -12,7 +12,7 @@
 
 # Upstream repository
 UPSTREAM_URL=https://api.github.com/repos/aws/aws-iot-device-sdk-embedded-C
-UPSTREAM_TAG=v3.0.1
+UPSTREAM_TAG=7047744
 
 # Pack Vendor
 PACK_VENDOR=MDK-Packs
@@ -62,6 +62,8 @@ fi
 
 # Remove some unused files
 rm -f  $PACK_BUILD/.travis.yml
+rm -f  $PACK_BUILD/.gitignore
+rm -f  $PACK_BUILD/.gitmodules
 rm -rf $PACK_BUILD/.github
 
 # Merge contributions into $PACK_BUILD
